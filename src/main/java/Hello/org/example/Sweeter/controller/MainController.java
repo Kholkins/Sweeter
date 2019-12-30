@@ -1,4 +1,4 @@
-package Hello.org.example.Sweeter;
+package Hello.org.example.Sweeter.controller;
 
 import Hello.org.example.Sweeter.Domain.Message;
 import Hello.org.example.Sweeter.Repos.MessageRepo;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class GreetingController {
+public class MainController {
 
     @Autowired
     private MessageRepo messageRepo;
