@@ -9,12 +9,17 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+        <style>
+            .turbolinks-progress-bar {
+                height: 2px;
+                background-color: navy;
+            }
+        </style>
     </head>
     <body>
     <#include "navbar.ftl">
-    <div class="container">
-    <#nested>
+    <div class="container mt-5">
+        <#nested>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
