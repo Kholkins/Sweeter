@@ -3,6 +3,7 @@ package Hello.org.example.Sweeter.controller;
 import Hello.org.example.Sweeter.Domain.Role;
 import Hello.org.example.Sweeter.Domain.User;
 import Hello.org.example.Sweeter.Repos.UserRepo;
+import Hello.org.example.Sweeter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,7 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepo userRepo;
+    private UserService userService;
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -25,16 +26,13 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
 
-        if (userFromDb != null) {
+
+        if (!userService.addUser(user)) {
             model.put("message", "User exists!");
             return "registration";
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
 
         return "redirect:/login";
     }
