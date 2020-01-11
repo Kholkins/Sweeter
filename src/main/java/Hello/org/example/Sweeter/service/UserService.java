@@ -18,6 +18,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private MailSender mailSender;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUsername(username);
@@ -37,7 +40,14 @@ public class UserService implements UserDetailsService {
         userRepo.save(user);
 
         if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    "Hallo %s! \n"+
+                    "Welcome to Sweater. Please, visit next link: http://localhost:8080/activate/%s",
+                    user.getUsername(),
+                    user.getActivationCode()
+            );
 
+            mailSender.sand(user.getEmail(), "Activation code", message);
         }
 
         return true;
