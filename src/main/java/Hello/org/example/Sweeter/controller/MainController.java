@@ -64,10 +64,10 @@ public class MainController {
             }
 
             String uuidFile = UUID.randomUUID().toString();
-            String fileName = file.getOriginalFilename();
-            int startIndex = fileName.replaceAll("\\\\", "/").lastIndexOf("/");
-            fileName = fileName.substring(startIndex + 1);
-            String resultFilename = uuidFile + "." + fileName;
+            StringBuilder fileName = new StringBuilder(file.getOriginalFilename().replaceAll("\\\\", "/"));
+            int startIndex = fileName.lastIndexOf("/");
+            String strFileName = fileName.substring(startIndex + 1);
+            String resultFilename = uuidFile + "." + strFileName;
 
             file.transferTo(new File(uploadPath + "/" + resultFilename));
 
