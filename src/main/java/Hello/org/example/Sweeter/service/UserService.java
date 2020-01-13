@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
             return false;
         }
 
-        user.setActive(true);
+        user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
 
@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             return false;
         }
-
+        user.setActive(true);
         user.setActivationCode(null);
         userRepo.save(user);
 
