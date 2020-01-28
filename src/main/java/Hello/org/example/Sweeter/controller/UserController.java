@@ -3,6 +3,7 @@ package Hello.org.example.Sweeter.controller;
 import Hello.org.example.Sweeter.Domain.Role;
 import Hello.org.example.Sweeter.Domain.User;
 import Hello.org.example.Sweeter.Repos.UserRepo;
+import Hello.org.example.Sweeter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,11 @@ import java.util.stream.Collectors;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     @Autowired
-    private UserRepo userRepo;
+    private UserService userService;
 
     @GetMapping
     public String userList(Model model) {
-        model.addAttribute("users", userRepo.findAll());
+        model.addAttribute("users", userService.findAll());
 
         return "userList";
     }
@@ -42,21 +43,7 @@ public class UserController {
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
     ) {
-        user.setUsername(username);
-
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
-            }
-        }
-
-        userRepo.save(user);
+userService.saveUser(user, username, form);
 
         return "redirect:/user";
     }
