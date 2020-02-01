@@ -102,5 +102,6 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(password)) {
             user.setPassword(password);
         }
+        userRepo.save(user);
     }
 }
