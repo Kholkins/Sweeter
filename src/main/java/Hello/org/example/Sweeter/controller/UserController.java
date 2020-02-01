@@ -62,6 +62,6 @@ userService.saveUser(user, username, form);
     ) {
         userService.updateUser(user, password, email);
 
-        return "redirect:/user/profile"
+        return "redirect:/user/profile";
     }
 }
