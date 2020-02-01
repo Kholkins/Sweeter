@@ -39,6 +39,12 @@ public class UserService implements UserDetailsService {
 
         userRepo.save(user);
 
+        sendMessage(user);
+
+        return true;
+    }
+
+    private void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hallo %s! \n"+
@@ -49,8 +55,6 @@ public class UserService implements UserDetailsService {
 
             mailSender.sand(user.getEmail(), "Activation code", message);
         }
-
-        return true;
     }
 
     public boolean activateUser(String code) {
@@ -93,15 +97,18 @@ public class UserService implements UserDetailsService {
 
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) || (email != null && !userEmail.equals(email));
 
-    if (isEmailChanged){
-        user.setEmail(email);
-        if (!StringUtils.isEmpty(email)) {
-            user.setActivationCode(UUID.randomUUID().toString());
+        if (isEmailChanged){
+            user.setEmail(email);
+            if (!StringUtils.isEmpty(email)) {
+                user.setActivationCode(UUID.randomUUID().toString());
+            }
         }
-    }
         if (!StringUtils.isEmpty(password)) {
             user.setPassword(password);
         }
         userRepo.save(user);
+        if (isEmailChanged){
+            sendMessage(user);
+        }
     }
 }
