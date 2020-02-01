@@ -53,4 +53,15 @@ userService.saveUser(user, username, form);
 
         return "profile";
     }
+
+    @PostMapping("profile")
+    public String updateProfile(
+            @AuthenticationPrincipal User user,
+            @RequestParam String password,
+            @RequestParam String email
+    ) {
+        userService.updateUser(user, password, email);
+
+        return "redirect:/user/profile"
+    }
 }
